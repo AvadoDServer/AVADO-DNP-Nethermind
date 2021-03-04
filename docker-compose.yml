@@ -1,0 +1,14 @@
+version: '3.4'
+volumes:
+  data: {}
+services:
+  avado-dnp-nethermind.public.dappnode.eth:
+    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.23'
+    build: ./build
+    volumes:
+      - 'data:/nethermind/nethermind_db'
+    ports:
+      - '30306:30306'
+      - '30306:30306/udp'
+      - '8545:8545'
+      - '8546:8546'

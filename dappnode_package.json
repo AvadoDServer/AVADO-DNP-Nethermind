@@ -1,0 +1,33 @@
+{
+  "name": "avado-dnp-nethermind.public.dappnode.eth",
+  "version": "0.0.23",
+  "upstream": "1.10.12",
+  "title": "Ethereum node (Nethermind)",
+  "description": "This package installs an Ethereum full node on your AVADO. It installs the latest Nethermind client and makes its RPC ports available on the network of your AVADO so that you can interact with the blockchain. Please forward port 30306/tcp on your router to your AVADO box for best results.",
+  "avatar": "/ipfs/QmVr6BNKibzuDh4tnNnhumPPrNDGDAQvzt7aNWAwEmqtck",
+  "type": "library",
+  "chain": "ethereum",
+  "image": {
+    "path": "avado-dnp-nethermind.public.dappnode.eth_0.0.23.tar.xz",
+    "hash": "/ipfs/QmeuFfSwoCdV1GibyWmu9GW8UeedG894DNy59P9DB7hB1c",
+    "size": 142968856,
+    "restart": "always",
+    "volumes": [
+      "data:/nethermind/nethermind_db"
+    ],
+    "ports": [
+      "30306:30306",
+      "30306:30306/udp",
+      "8545:8545"
+    ],
+    "keywords": [
+      "Nethermind"
+    ]
+  },
+  "author": "AVADO",
+  "license": "(C)",
+  "dependencies": {},
+  "links": {
+    "rpcendpoint": "http://my.avado-dnp-nethermind.public.dappnode.eth:8545/"
+  }
+}
