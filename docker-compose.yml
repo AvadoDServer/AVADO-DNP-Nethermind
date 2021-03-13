@@ -3,7 +3,7 @@ volumes:
   data: {}
 services:
   avado-dnp-nethermind.public.dappnode.eth:
-    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.23'
+    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.24'
     build: ./build
     volumes:
       - 'data:/nethermind/nethermind_db'
