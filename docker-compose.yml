@@ -1,14 +1,23 @@
 version: '3.4'
-volumes:
-  data: {}
 services:
   avado-dnp-nethermind.public.dappnode.eth:
-    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.24'
-    build: ./build
+    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.25'
+    build:
+      context: ./build
+      args:
+        VERSION: 1.12.7
     volumes:
-      - 'data:/nethermind/nethermind_db'
+      - 'nethermind_db:/nethermind/nethermind_db'
+      - 'logs:/nethermind/logs'
+      - 'keystore:/nethermind/keystore'
     ports:
-      - '30306:30306'
-      - '30306:30306/udp'
-      - '8545:8545'
-      - '8546:8546'
+      - '30303:30303'
+      - '30303:30303/udp'
+    restart: always
+    environment:
+      - EXTRA_OPTS=
+volumes:
+  data: {}
+  nethermind_db: {}
+  logs: {}
+  keystore: {}
