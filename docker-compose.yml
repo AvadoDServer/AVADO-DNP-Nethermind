@@ -5,7 +5,7 @@ services:
     build:
       context: ./build
       args:
-        VERSION: 1.13.0
+        VERSION: 1.14.1
     volumes:
       - 'nethermind_db:/nethermind/nethermind_db'
       - 'logs:/nethermind/logs'

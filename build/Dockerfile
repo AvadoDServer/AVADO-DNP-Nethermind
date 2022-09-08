@@ -1,5 +1,5 @@
 ARG VERSION
-FROM nethermind/nethermind:${VERSION}
+FROM --platform=linux/amd64 nethermind/nethermind:${VERSION}
 
 # https://hub.docker.com/r/nethermind/nethermind
 
