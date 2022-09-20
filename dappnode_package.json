@@ -18,8 +18,8 @@
     ],
     "restart": "always",
     "ports": [
-      "30303:30303",
-      "30303:30303/udp"
+      "40303:40303",
+      "40303:40303/udp"
     ],
     "keywords": [
       "Nethermind"
