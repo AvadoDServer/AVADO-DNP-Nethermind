@@ -9,6 +9,7 @@
   "chain": "ethereum",
   "image": {
     "environment": [
+      "NETWORK=mainnet",
       "EXTRA_OPTS=--Sync.FastSync=true --Network.MaxActivePeers=50"
     ],
     "volumes": [

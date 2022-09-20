@@ -15,6 +15,7 @@ services:
       - '40303:40303/udp'
     restart: always
     environment:
+      - NETWORK=mainnet
       - EXTRA_OPTS=
 volumes:
   data: {}
