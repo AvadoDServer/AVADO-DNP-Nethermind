@@ -20,7 +20,7 @@ exec /nethermind/Nethermind.Runner \
 --JsonRpc.JwtSecretFile ${JWT_TOKEN} \
 --Network.DiscoveryPort 40303  \
 --Network.P2PPort 40303 \
---config mainnet \
+--config ${NETWORK} \
 --JsonRpc.Enabled=true \
 --JsonRpc.Host=0.0.0.0 \
 --Init.WebSocketsEnabled=true \
