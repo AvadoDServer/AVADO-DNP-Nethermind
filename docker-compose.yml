@@ -11,6 +11,10 @@ services:
       - 'logs:/nethermind/logs'
       - 'keystore:/nethermind/keystore'
     ports:
+      - '443:443'
+      - '8545:8545'
+      - '8546:8546'
+      - '8551:8551'
       - '40303:40303'
       - '40303:40303/udp'
     restart: always
