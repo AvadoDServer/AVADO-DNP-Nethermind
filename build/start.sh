@@ -18,6 +18,8 @@ echo "EXTRA_OPTS=$EXTRA_OPTS"
 
 exec /nethermind/Nethermind.Runner \
 --JsonRpc.JwtSecretFile ${JWT_TOKEN} \
+--JsonRpc.EnginePort=8551 \
+--JsonRpc.EngineHost=0.0.0.0 \
 --Network.DiscoveryPort 40303  \
 --Network.P2PPort 40303 \
 --config ${NETWORK} \
@@ -26,8 +28,6 @@ exec /nethermind/Nethermind.Runner \
 --Init.WebSocketsEnabled=true \
 --HealthChecks.Enabled=true \
 --HealthChecks.UIEnabled=true \
---JsonRpc.EnginePort=8551 \
---JsonRpc.EngineHost=0.0.0.0 \
 $EXTRA_OPTS
 
 # https://docs.nethermind.io/nethermind/ethereum-client/configuration
