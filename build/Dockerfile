@@ -14,7 +14,6 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
 RUN useradd -s /bin/false nginx
 RUN mkdir -p /etc/nginx/certs/
 WORKDIR /etc/nginx/certs/
-ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 RUN wget http://iso.ava.do/my.ava.do.crt && wget http://iso.ava.do/my.ava.do.key
 COPY nginx.conf /etc/nginx
 
