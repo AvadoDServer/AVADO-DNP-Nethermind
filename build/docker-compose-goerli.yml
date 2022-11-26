@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  nethermind-goerli.avado.dnp.dappnode.eth:
+    image: 'nethermind-goerli.avado.dnp.dappnode.eth:0.0.1'
+    build:
+      context: ./build
+      args:
+        VERSION: 1.14.6
+    volumes:
+      - 'nethermind_db:/nethermind/nethermind_db'
+      - 'logs:/nethermind/logs'
+      - 'keystore:/nethermind/keystore'
+    ports:
+      - '30309:30309'
+      - '30309:30309/udp'
+    restart: always
+    environment:
+      - NETWORK=goerli
+      - EXTRA_OPTS=
+volumes:
+  data: {}
+  nethermind_db: {}
+  logs: {}
+  keystore: {}

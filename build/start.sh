@@ -16,12 +16,24 @@ chmod 644 /usr/share/nginx/wizard/jwttoken
 
 echo "EXTRA_OPTS=$EXTRA_OPTS"
 
+case ${NETWORK} in
+  "gnosis")
+    P2P_PORT=30305
+    ;;
+  "goerli")
+    P2P_PORT=30309
+    ;;
+  *)
+    P2P_PORT=40303
+    ;;
+esac
+
 exec /nethermind/Nethermind.Runner \
 --JsonRpc.JwtSecretFile ${JWT_TOKEN} \
 --JsonRpc.EnginePort=8551 \
 --JsonRpc.EngineHost=0.0.0.0 \
---Network.DiscoveryPort 40303  \
---Network.P2PPort 40303 \
+--Network.DiscoveryPort ${P2P_PORT}  \
+--Network.P2PPort ${P2P_PORT} \
 --config ${NETWORK} \
 --JsonRpc.Enabled=true \
 --JsonRpc.Host=0.0.0.0 \
@@ -29,8 +41,6 @@ exec /nethermind/Nethermind.Runner \
 --HealthChecks.Enabled=true \
 --HealthChecks.UIEnabled=true \
 $EXTRA_OPTS
-
-# https://docs.nethermind.io/nethermind/ethereum-client/configuration
 
 # Usage: Nethermind.Runner [options]
 
@@ -57,7 +67,6 @@ $EXTRA_OPTS
 #   --Aura.Minimum2MlnGasPerBlockWhenUsingBlockGasLimitContract  If 'true' then when using BlockGasLimitContractTransitions if the contract returns less than 2mln gas, then 2 mln gas is used. (DEFAULT: false)
 #   --Aura.TxPriorityConfigFilePath                              If set then transaction priority rules are used when selecting transactions from transaction pool. This has higher priority then on chain contract rules. See more at contract details https://github.com/poanetwork/posdao-contracts/blob/master/contracts/TxPriority.sol (DEFAULT: null)
 #   --Aura.TxPriorityContractAddress                             If set then transaction priority contract is used when selecting transactions from transaction pool. See more at https://github.com/poanetwork/posdao-contracts/blob/master/contracts/TxPriority.sol (DEFAULT: null)
-#   --AuRaMerge.Enabled                                          Defines whether the AuRa Merge plugin variant is enabled. (DEFAULT: false)
 #   --Bloom.Index                                                Defines whether the Bloom index is used. Bloom index speeds up rpc log searches. (DEFAULT: true)
 #   --Bloom.IndexLevelBucketSizes                                Defines multipliers for index levels. Can be tweaked per chain to boost performance. (DEFAULT: [4, 8, 8])
 #   --Bloom.Migration                                            Defines if migration of previously downloaded blocks to Bloom index will be done. (DEFAULT: false)
@@ -69,6 +78,7 @@ $EXTRA_OPTS
 #   --EthStats.Secret                                            Password for publishing to a given ethstats server. (DEFAULT: secret)
 #   --EthStats.Server                                            EthStats server wss://hostname:port/api/ (DEFAULT: ws://localhost:3000/api)
 #   --HealthChecks.Enabled                                       If 'true' then Health Check endpoints is enabled at /health (DEFAULT: false)
+#   --HealthChecks.MaxIntervalClRequestTime                      Max request interval in which we assume that CL works in a healthy way (DEFAULT: 300)
 #   --HealthChecks.MaxIntervalWithoutProcessedBlock              Max interval in seconds in which we assume that node processing blocks in a healthy way (DEFAULT: null)
 #   --HealthChecks.MaxIntervalWithoutProducedBlock               Max interval in seconds in which we assume that node producing blocks in a healthy way (DEFAULT: null)
 #   --HealthChecks.PollingInterval                               Configures the UI to poll for healthchecks updates (in seconds) (DEFAULT: 5)
@@ -147,7 +157,7 @@ $EXTRA_OPTS
 #   --KeyStore.TestNodeKey                                       Plain private key to be used in test scenarios (DEFAULT: )
 #   --KeyStore.UnlockAccounts                                    Accounts to unlock on startup using provided PasswordFiles and Passwords (DEFAULT: [])
 #   --Merge.BuilderRelayUrl                                      URL to Builder Relay. If set when building blocks nethermind will send them to the relay. (DEFAULT: null)
-#   --Merge.Enabled                                              Defines whether the Merge plugin is enabled bundles are allowed. (DEFAULT: false)
+#   --Merge.Enabled                                              Defines whether the Merge plugin is enabled bundles are allowed. (DEFAULT: true)
 #   --Merge.FinalTotalDifficulty                                 Final total difficulty is total difficulty of the last PoW block. FinalTotalDifficulty >= TerminalTotalDifficulty. (DEFAULT: null)
 #   --Merge.SecondsPerSlot                                       Seconds per slot. (DEFAULT: 12)
 #   --Merge.TerminalBlockHash                                    Terminal PoW block hash used for transition process. (DEFAULT: null)
@@ -157,13 +167,14 @@ $EXTRA_OPTS
 #   --Metrics.ExposePort                                         If set, the node exposes Prometheus metrics on the given port. (DEFAULT: null)
 #   --Metrics.IntervalSeconds                                    Defines how often metrics are pushed to Prometheus (DEFAULT: 5)
 #   --Metrics.NodeName                                           Name displayed in the Grafana dashboard (DEFAULT: "Nethermind")
-#   --Metrics.PushGatewayUrl                                     Prometheus Pushgateway URL. (DEFAULT: "http://localhost:9091/metrics")
+#   --Metrics.PushGatewayUrl                                     Prometheus Pushgateway URL. (DEFAULT: )
 #   --Mev.BundleHorizon                                          Defines how long MEV bundles will be kept in memory by clients (DEFAULT: 3600)
 #   --Mev.BundlePoolSize                                         Defines the maximum number of MEV bundles that can be kept in memory by clients (DEFAULT: 200)
 #   --Mev.Enabled                                                Defines whether the MEV bundles are allowed. (DEFAULT: false)
 #   --Mev.MaxMergedBundles                                       Defines the maximum number of MEV bundles to be included within a single block (DEFAULT: 1)
 #   --Mev.TrustedRelays                                          Defines the list of trusted relay addresses to receive megabundles from as a comma separated string (DEFAULT: )
 #   --Mining.Enabled                                             Defines whether the blocks should be produced. (DEFAULT: false)
+#   --Mining.ExtraData                                           Block header extra data. 32-bytes shall be extra data max length. (DEFAULT: Nethermind)
 #   --Mining.MinGasPrice                                         Minimum gas premium for transactions accepted by the block producer. Before EIP1559: Minimum gas price for transactions accepted by the block producer. (DEFAULT: 1)
 #   --Mining.RandomizedBlocks                                    Only used in NethDev. Setting this to true will change the difficulty of the block randomly within the constraints. (DEFAULT: false)
 #   --Mining.TargetBlockGasLimit                                 Block gas limit that the block producer should try to reach in the fastest possible way based on protocol rules. NULL value means that the miner should follow other miners. (DEFAULT: null)
@@ -171,6 +182,7 @@ $EXTRA_OPTS
 #   --Network.Bootnodes                                          Bootnodes (DEFAULT: )
 #   --Network.DiagTracerEnabled                                  Enabled very verbose diag network tracing files for DEV purposes (Nethermind specific) (DEFAULT: false)
 #   --Network.DiscoveryPort                                      UDP port number for incoming discovery connections. Keep same as TCP/IP port because using different values has never been tested. (DEFAULT: 30303)
+#   --Network.EnableUPnP                                         Enable automatic port forwarding via UPnP (DEFAULT: false)
 #   --Network.ExternalIp                                         Use only if your node cannot resolve external IP automatically. (DEFAULT: null)
 #   --Network.LocalIp                                            Use only if your node cannot resolve local IP automatically. (DEFAULT: null)
 #   --Network.MaxActivePeers                                     Same as ActivePeersMaxCount. (DEFAULT: 50)
@@ -206,6 +218,7 @@ $EXTRA_OPTS
 #   --Sync.PivotNumber                                           Number of the pivot block for the Fast Blocks sync. (DEFAULT: null)
 #   --Sync.PivotTotalDifficulty                                  Total Difficulty of the pivot block for the Fast Blocks sync (not - this is total difficulty and not difficulty). (DEFAULT: null)
 #   --Sync.SnapSync                                              Enables SNAP sync protocol. (DEFAULT: false)
+#   --Sync.StrictMode                                            Disable some optimization and run a more extensive sync. Useful for broken sync state but normally not needed (DEFAULT: false)
 #   --Sync.SynchronizationEnabled                                If 'false' then the node does not download/process new blocks. (DEFAULT: true)
 #   --Sync.UseGethLimitsInFastBlocks                             If set to 'true' then in the Fast Blocks mode Nethermind generates smaller requests to avoid Geth from disconnecting. On the Geth heavy networks (mainnet) it is desired while on Parity or Nethermind heavy networks (Goerli, AuRa) it slows down the sync by a factor of ~4 (DEFAULT: true)
 #   --Sync.WitnessProtocolEnabled                                Enables witness protocol. (DEFAULT: false)
