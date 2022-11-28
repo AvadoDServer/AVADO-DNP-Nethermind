@@ -12,14 +12,12 @@ case ${NETWORK} in
 esac
 
 for file in \
-    build/docker-compose.yml \
+    docker-compose.yml \
     dappnode_package.json \
-    build/avatar.png
+    avatar.png
 do
     BASENAME=${file%.*}
     EXT=${file##*.}
-    # echo $BASENAME
-    # echo $EXT
     rm -f $file
-    ln ${BASENAME}-${NETWORK}.${EXT} $file
+    ln -sf build/${BASENAME}-${NETWORK}.${EXT} $file
 done
