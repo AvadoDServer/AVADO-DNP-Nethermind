@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   nethermind-goerli.avado.dnp.dappnode.eth:
-    image: 'nethermind-goerli.avado.dnp.dappnode.eth:0.0.1'
+    image: 'nethermind-goerli.avado.dnp.dappnode.eth:0.0.3'
     build:
       context: ./build
       args:

@@ -1,6 +1,6 @@
 {
   "name": "nethermind-goerli.avado.dnp.dappnode.eth",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "upstream": "1.14.7",
   "autoupdate": true,
   "title": "Goerli Nethermind",
