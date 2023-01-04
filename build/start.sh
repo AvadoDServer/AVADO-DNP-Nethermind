@@ -2,17 +2,10 @@
 
 # Create JWTToken if it does not exist yet
 JWT_TOKEN="/nethermind/keystore/jwt-secret"
-if [ ! -f ${JWT_TOKEN} ]; then
-    echo "Creating JWT Token"
-    mkdir -p "/nethermind/keystore/"
-    openssl rand -hex 32 | tr -d "\n" >${JWT_TOKEN}
-    cat ${JWT_TOKEN}
-fi
-
-# make JWT token available via nginx
-mkdir -p /usr/share/nginx/wizard/
-cat ${JWT_TOKEN} | tail -1 >/usr/share/nginx/wizard/jwttoken
-chmod 644 /usr/share/nginx/wizard/jwttoken
+until $(curl --silent --fail "http://dappmanager.my.ava.do/jwttoken.txt" --output "${JWT_TOKEN}"); do
+  echo "Waiting for the JWT Token"
+  sleep 5
+done
 
 echo "EXTRA_OPTS=$EXTRA_OPTS"
 
