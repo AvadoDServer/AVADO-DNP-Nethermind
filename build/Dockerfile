@@ -3,11 +3,12 @@ FROM --platform=linux/amd64 nethermind/nethermind:${VERSION}
 
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
     ca-certificates \
+    curl \
     nginx \
     openssl \
-    wget \
     supervisor \
     vim-tiny \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up nginx config
