@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   nethermind-gnosis.avado.dnp.dappnode.eth:
-    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.22'
+    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.23'
     build:
       context: ./build
       args:
