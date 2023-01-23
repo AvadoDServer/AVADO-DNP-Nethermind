@@ -1,6 +1,6 @@
 {
   "name": "nethermind-gnosis.avado.dnp.dappnode.eth",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "upstream": "1.16.0",
   "autoupdate": true,
   "title": "Gnosis Chain node (Nethermind)",
@@ -10,7 +10,7 @@
   "type": "service",
   "image": {
     "environment": [
-      "NETWORK=xdai",
+      "NETWORK=gnosis",
       "EXTRA_OPTS=--Sync.FastSync=true --Network.MaxActivePeers=50"
     ],
     "volumes": [

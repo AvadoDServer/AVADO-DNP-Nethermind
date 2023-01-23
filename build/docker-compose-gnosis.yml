@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   nethermind-gnosis.avado.dnp.dappnode.eth:
-    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.23'
+    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.24'
     build:
       context: ./build
       args:
@@ -15,7 +15,7 @@ services:
       - '30305:30305/udp'
     restart: always
     environment:
-      - NETWORK=xdai
+      - NETWORK=gnosis
       - EXTRA_OPTS=
 volumes:
   data: {}
