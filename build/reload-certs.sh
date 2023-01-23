@@ -2,6 +2,9 @@
 while true; do
     date > /tmp/reload-certs.txt
 
+    #wait a bit before loading the certificates
+    sleep 15
+
     echo "Check for updated certificates"
 
     md5sumbefore=$(md5sum "/etc/nginx/certs/my.ava.do.crt")
@@ -10,7 +13,7 @@ while true; do
     md5sumafter=$(md5sum "/etc/nginx/certs/my.ava.do.crt")
 
     if [ "$md5sumbefore" != "$md5sumafter" ]; then
-        if [ -e /var/run/nginx/nginx.pid ]; then
+        if [ -e /var/run/nginx.pid ]; then # in this image the pid is in /var/run/nginx.pid
             echo "Reload nginx"
             nginx -s reload
         fi
