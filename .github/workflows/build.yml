@@ -4,4 +4,35 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: AvadoDServer/ci-build-action@main
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.0
+      - name: Install Avado SDK
+        run: |
+          npm i -g git+https://github.com/AvadoDServer/AVADOSDK.git
+      - uses: actions/checkout@v3
+      - name: Alias "docker compose" as docker-compose for avadosdk
+        run: |
+          sudo sh -c 'echo "docker compose --compatibility \"\$@\"" > /bin/docker-compose'
+          sudo chmod +x /bin/docker-compose
+      - name: Build package
+        run: avadosdk build --provider http://80.208.229.228:5001
+      - name: Install jq
+        run: sudo apt-get install -y jq
+      - name: create json-file for release
+        run: |
+          PACKAGENAME=$(jq '.name' dappnode_package.json --raw-output)
+          VERSION=$(jq '.version' dappnode_package.json --raw-output)
+          jq --null-input \
+            --arg packageName "${PACKAGENAME}" \
+            --arg version "${VERSION}" \
+            --arg ipfsHash $(jq '."'"${VERSION}"'".hash' releases.json --raw-output) \
+            '{"packageName": $packageName, "version": $version, "ipfsHash": $ipfsHash}' > ${GITHUB_SHA}.json
+      - name: verify release json
+        run: cat ${GITHUB_SHA}.json
+      - name: Upload release info
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${GITHUB_SHA}.json
+          path: ${GITHUB_SHA}.json
