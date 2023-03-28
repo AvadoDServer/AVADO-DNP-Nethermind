@@ -28,16 +28,16 @@ jobs:
             --arg packageName "${PACKAGENAME}" \
             --arg version "${VERSION}" \
             --arg ipfsHash $(jq '."'"${VERSION}"'".hash' releases.json --raw-output) \
-            '{"packageName": $packageName, "version": $version, "ipfsHash": $ipfsHash}' > ${GITHUB_SHA}.json
+            '{"packageName": $packageName, "version": $version, "ipfsHash": $ipfsHash}' > $GITHUB_SHA.json
       - name: test vars
-        run: find ${GITHUB_WORKSPACE}
+        run: find $GITHUB_WORKSPACE
       - name: verify release json
-        run: cat ${GITHUB_SHA}.json
+        run: cat $GITHUB_SHA.json
       - name: verify release json
-        run: cat ${GITHUB_WORKSPACE}/${GITHUB_SHA}.json
+        run: cat $GITHUB_WORKSPACE/$GITHUB_SHA.json
       - name: Upload release info
         uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
-          name: ${GITHUB_SHA}.json
-          path: ${GITHUB_WORKSPACE}/${GITHUB_SHA}.json
+          name: $GITHUB_SHA.json
+          path: $GITHUB_WORKSPACE/$GITHUB_SHA.json
