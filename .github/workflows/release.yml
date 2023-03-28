@@ -16,7 +16,7 @@ jobs:
         with:
           workflow: build.yml
           if_no_artifact_found: fail
-          name: cf850c7ea6c90a64845307666a68e46073040eb8.json
+          name: 9f059eb657c985db3c7d7c32c5eeb5a1c1962b1f.json
           path: ${{github.sha}}.json
           github_token: ${{github.token}}
       # - name: Download release.json
