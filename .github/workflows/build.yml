@@ -34,5 +34,6 @@ jobs:
       - name: Upload release info
         uses: actions/upload-artifact@v3
         with:
+          if-no-files-found: error
           name: ${GITHUB_SHA}.json
-          path: ${GITHUB_SHA}.json
+          path: ${GITHUB_WORKSPACE}/${GITHUB_SHA}.json
