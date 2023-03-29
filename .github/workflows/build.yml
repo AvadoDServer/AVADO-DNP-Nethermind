@@ -11,33 +11,27 @@ jobs:
       - name: Install Avado SDK
         run: |
           npm i -g git+https://github.com/AvadoDServer/AVADOSDK.git
-      - uses: actions/checkout@v3
+      - name: git checkout
+        run: |
+          git clone github.repositoryUrl .
+          # git fetch origin pull/${payload.pull_request.number}/head:pr
+          git fetch origin ${{github.ref}}
+          git checkout pr
       - name: Alias "docker compose" as docker-compose for avadosdk
         run: |
           sudo sh -c 'echo "docker compose --compatibility \"\$@\"" > /bin/docker-compose'
           sudo chmod +x /bin/docker-compose
       - name: Build package
         run: avadosdk build --provider http://80.208.229.228:5001
-      - name: Install jq
+      - name: Create diff file
         run: sudo apt-get install -y jq
-      - name: create json-file for release
+      - name: create diff-file for release workflow
         run: |
-          PACKAGENAME=$(jq '.name' dappnode_package.json --raw-output)
-          VERSION=$(jq '.version' dappnode_package.json --raw-output)
-          jq --null-input \
-            --arg packageName "${PACKAGENAME}" \
-            --arg version "${VERSION}" \
-            --arg ipfsHash $(jq '."'"${VERSION}"'".hash' releases.json --raw-output) \
-            '{"packageName": $packageName, "version": $version, "ipfsHash": $ipfsHash}' > $GITHUB_SHA.json
-      - name: test vars
-        run: find $GITHUB_WORKSPACE
-      - name: verify release json
-        run: cat $GITHUB_SHA.json
-      - name: verify release json
-        run: cat $GITHUB_WORKSPACE/$GITHUB_SHA.json
-      - name: Upload release info
+          git add --force --intent-to-add releases.json
+          git diff >> ${GITHUB_SHA}.diff
+      - name: Upload diff file
         uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
-          name: ${{github.sha}}.json
-          path: ${{github.sha}}.json
+          name: ${{github.sha}}.diff
+          path: ${{github.sha}}.diff
