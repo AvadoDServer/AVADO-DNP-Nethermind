@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Create JWTToken if it does not exist yet
 JWT_TOKEN="/nethermind/keystore/jwt-secret"
 until $(curl --silent --fail "http://dappmanager.my.ava.do/jwttoken.txt" --output "${JWT_TOKEN}"); do
   echo "Waiting for the JWT Token"
