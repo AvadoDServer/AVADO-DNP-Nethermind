@@ -1,11 +1,11 @@
 version: '3.4'
 services:
   nethermind-goerli.avado.dnp.dappnode.eth:
-    image: 'nethermind-goerli.avado.dnp.dappnode.eth:0.0.11'
+    image: 'nethermind-goerli.avado.dnp.dappnode.eth:0.0.12'
     build:
       context: ./build
       args:
-        VERSION: 1.18.2
+        VERSION: 1.19.0
     volumes:
       - 'nethermind_db:/nethermind/nethermind_db'
       - 'logs:/nethermind/logs'
