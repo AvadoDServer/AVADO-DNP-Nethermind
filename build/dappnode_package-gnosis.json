@@ -1,7 +1,7 @@
 {
   "name": "nethermind-gnosis.avado.dnp.dappnode.eth",
-  "version": "0.0.37",
-  "upstream": "1.21.1",
+  "version": "0.0.38",
+  "upstream": "1.22.0",
   "autoupdate": true,
   "title": "Gnosis Chain node (Nethermind)",
   "description": "This package syncs a Gnosis node on your AVADO",
