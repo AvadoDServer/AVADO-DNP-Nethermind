@@ -1,7 +1,7 @@
 {
   "name": "nethermind-goerli.avado.dnp.dappnode.eth",
   "version": "0.0.17",
-  "upstream": "1.25.1",
+  "upstream": "1.25.2",
   "autoupdate": true,
   "title": "Goerli Nethermind",
   "description": "This package syncs a goerli node on your AVADO",
