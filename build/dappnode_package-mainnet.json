@@ -1,6 +1,6 @@
 {
   "name": "avado-dnp-nethermind.public.dappnode.eth",
-  "version": "0.0.5",
+  "version": "0.0.55",
   "upstream": "1.31.0",
   "autoupdate": true,
   "title": "Ethereum node (Nethermind)",
