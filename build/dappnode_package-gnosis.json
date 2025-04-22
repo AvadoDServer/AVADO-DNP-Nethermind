@@ -19,8 +19,13 @@
       "keystore:/nethermind/keystore"
     ],
     "restart": "always",
-    "ports": ["30305:30305/udp", "30305:30305"],
-    "keywords": ["Nethermind"]
+    "ports": [
+      "30305:30305/udp",
+      "30305:30305"
+    ],
+    "keywords": [
+      "Nethermind"
+    ]
   },
   "author": "AVADO",
   "license": "GPL-3.0",
