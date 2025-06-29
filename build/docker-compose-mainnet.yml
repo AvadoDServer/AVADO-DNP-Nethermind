@@ -1,11 +1,11 @@
 version: '3.4'
 services:
   avado-dnp-nethermind.public.dappnode.eth:
-    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.56'
+    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.57'
     build:
       context: ./build
       args:
-        VERSION: 1.31.9
+        VERSION: 1.32.1
     volumes:
       - 'nethermind_db:/nethermind/nethermind_db'
       - 'logs:/nethermind/logs'
