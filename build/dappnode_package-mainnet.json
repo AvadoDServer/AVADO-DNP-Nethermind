@@ -1,7 +1,7 @@
 {
   "name": "avado-dnp-nethermind.public.dappnode.eth",
-  "version": "0.0.57",
-  "upstream": "1.32.1",
+  "version": "0.0.58",
+  "upstream": "1.32.2",
   "autoupdate": true,
   "title": "Ethereum node (Nethermind)",
   "description": "This package installs an Ethereum full node on your AVADO. It installs the latest Nethermind client and makes its RPC ports available on the network of your AVADO so that you can interact with the blockchain.",
@@ -20,13 +20,8 @@
       "keystore:/nethermind/keystore"
     ],
     "restart": "always",
-    "ports": [
-      "40303:40303",
-      "40303:40303/udp"
-    ],
-    "keywords": [
-      "Nethermind"
-    ]
+    "ports": ["40303:40303", "40303:40303/udp"],
+    "keywords": ["Nethermind"]
   },
   "author": "AVADO",
   "license": "GPL-3.0",
