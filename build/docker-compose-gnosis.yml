@@ -6,7 +6,6 @@ services:
       context: ./build
       args:
         VERSION: 1.35.7
-
     volumes:
       - 'nethermind_db:/nethermind/nethermind_db'
       - 'logs:/nethermind/logs'
