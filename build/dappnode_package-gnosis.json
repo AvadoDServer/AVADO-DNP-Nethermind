@@ -1,6 +1,6 @@
 {
   "name": "nethermind-gnosis.avado.dnp.dappnode.eth",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "upstream": "1.35.7",
   "autoupdate": true,
   "title": "Gnosis Chain node (Nethermind)",
@@ -19,13 +19,8 @@
       "keystore:/nethermind/keystore"
     ],
     "restart": "always",
-    "ports": [
-      "30305:30305/udp",
-      "30305:30305"
-    ],
-    "keywords": [
-      "Nethermind"
-    ]
+    "ports": ["30305:30305/udp", "30305:30305"],
+    "keywords": ["Nethermind"]
   },
   "author": "AVADO",
   "license": "GPL-3.0",
