@@ -1,2 +1,4 @@
 build_*
 releases.json
+__pycache__/
+*.py[cod]
