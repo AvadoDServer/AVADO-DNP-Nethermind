@@ -1,7 +1,7 @@
 version: '3.4'
 services:
-  nethermind-gnosis.avado.dnp.dappnode.eth:
-    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.56'
+  avado-dnp-nethermind.public.dappnode.eth:
+    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.63'
     build:
       context: ./build
       args:
@@ -11,11 +11,11 @@ services:
       - 'logs:/nethermind/logs'
       - 'keystore:/nethermind/keystore'
     ports:
-      - '30305:30305'
-      - '30305:30305/udp'
+      - '40303:40303'
+      - '40303:40303/udp'
     restart: always
     environment:
-      - NETWORK=gnosis
+      - NETWORK=mainnet
       - EXTRA_OPTS=
 volumes:
   data: {}
