@@ -1,1 +1,24 @@
-build/docker-compose-mainnet.yml
+version: '3.4'
+services:
+  nethermind-gnosis.avado.dnp.dappnode.eth:
+    image: 'nethermind-gnosis.avado.dnp.dappnode.eth:0.0.56'
+    build:
+      context: ./build
+      args:
+        VERSION: 1.36.0
+    volumes:
+      - 'nethermind_db:/nethermind/nethermind_db'
+      - 'logs:/nethermind/logs'
+      - 'keystore:/nethermind/keystore'
+    ports:
+      - '30305:30305'
+      - '30305:30305/udp'
+    restart: always
+    environment:
+      - NETWORK=gnosis
+      - EXTRA_OPTS=
+volumes:
+  data: {}
+  nethermind_db: {}
+  logs: {}
+  keystore: {}
