@@ -1,18 +1,18 @@
-version: '3.4'
+version: "3.4"
 services:
   avado-dnp-nethermind.public.dappnode.eth:
-    image: 'avado-dnp-nethermind.public.dappnode.eth:0.0.66'
+    image: "avado-dnp-nethermind.public.dappnode.eth:0.0.67"
     build:
       context: ./build
       args:
-        VERSION: 1.37.1
+        VERSION: 1.37.2
     volumes:
-      - 'nethermind_db:/nethermind/nethermind_db'
-      - 'logs:/nethermind/logs'
-      - 'keystore:/nethermind/keystore'
+      - "nethermind_db:/nethermind/nethermind_db"
+      - "logs:/nethermind/logs"
+      - "keystore:/nethermind/keystore"
     ports:
-      - '40303:40303'
-      - '40303:40303/udp'
+      - "40303:40303"
+      - "40303:40303/udp"
     restart: always
     environment:
       - NETWORK=mainnet
