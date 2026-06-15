@@ -97,19 +97,31 @@ def update_docker_compose(file_path, new_version, new_upstream):
 def main():
     # Get the repository root directory
     repo_root = Path(__file__).parent.parent.parent
-    
-    # File paths
-    dappnode_package_path = repo_root / "build" / "dappnode_package-mainnet.json"
-    docker_compose_path = repo_root / "build" / "docker-compose-mainnet.yml"
-    
+
+    # File paths.
+    # The build/*-mainnet.* files are the canonical source. The root-level
+    # dappnode_package.json and docker-compose.yml are regular committed files
+    # that mirror the mainnet variant, so they must be kept in sync too.
+    dappnode_package_paths = [
+        repo_root / "build" / "dappnode_package-mainnet.json",
+        repo_root / "dappnode_package.json",
+    ]
+    docker_compose_paths = [
+        repo_root / "build" / "docker-compose-mainnet.yml",
+        repo_root / "docker-compose.yml",
+    ]
+
+    # File we read the current version from (canonical source).
+    canonical_package_path = dappnode_package_paths[0]
+
     print("Checking for Nethermind updates...")
-    
+
     # Get latest Nethermind release
     latest_nethermind_version = get_latest_nethermind_release()
     print(f"Latest Nethermind version: {latest_nethermind_version}")
-    
+
     # Read current upstream version
-    with open(dappnode_package_path, 'r') as f:
+    with open(canonical_package_path, 'r') as f:
         current_data = json.load(f)
     
     current_upstream = current_data.get('upstream', '')
@@ -138,12 +150,14 @@ def main():
     print(f"New package version: {new_package_version}")
     
     # Update files
-    print("Updating build/dappnode_package-mainnet.json...")
-    update_dappnode_package(dappnode_package_path, new_package_version, latest_nethermind_version)
-    
-    print("Updating build/docker-compose-mainnet.yml...")
-    update_docker_compose(docker_compose_path, new_package_version, latest_nethermind_version)
-    
+    for path in dappnode_package_paths:
+        print(f"Updating {path.relative_to(repo_root)}...")
+        update_dappnode_package(path, new_package_version, latest_nethermind_version)
+
+    for path in docker_compose_paths:
+        print(f"Updating {path.relative_to(repo_root)}...")
+        update_docker_compose(path, new_package_version, latest_nethermind_version)
+
     print("Update complete!")
     
     # Set GitHub Actions output
