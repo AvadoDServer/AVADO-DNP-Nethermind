@@ -43,10 +43,8 @@ jobs:
             This PR updates the Nethermind upstream version from **${{ env.old_version }}** to **${{ env.new_version }}**.
             
             ### Changes:
-            - Updated `upstream` in `build/dappnode_package-mainnet.json` to `${{ env.new_version }}`
-            - Incremented `version` in `build/dappnode_package-mainnet.json` to `${{ env.package_version }}`
-            - Updated `image` tag in `build/docker-compose-mainnet.yml` to `${{ env.package_version }}`
-            - Updated `VERSION` build argument in `build/docker-compose-mainnet.yml` to `${{ env.new_version }}`
+            - Updated `upstream` to `${{ env.new_version }}` and `version` to `${{ env.package_version }}` in `dappnode_package.json` and `build/dappnode_package-mainnet.json`
+            - Updated `image` tag to `${{ env.package_version }}` and `VERSION` build argument to `${{ env.new_version }}` in `docker-compose.yml` and `build/docker-compose-mainnet.yml`
             
             ### Release Notes:
             See [nethermindeth/nethermind releases](https://github.com/nethermindeth/nethermind/releases/tag/${{ env.new_version }})
