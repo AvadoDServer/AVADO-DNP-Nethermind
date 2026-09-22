@@ -30,6 +30,14 @@ case ${NETWORK} in
   ;;
 esac
 
+# Nethermind 2.0.0 syncs fresh nodes on the flat state backend, which still has open
+# issues (no snap-sync resume across restarts, no full pruning). Stay on patricia unless
+# the user opts in via EXTRA_OPTS; passing the flag twice makes Nethermind refuse to start.
+case "${EXTRA_OPTS}" in
+*FlatDb.Enabled* | *flatdb-enabled*) FLATDB_OPTS="" ;;
+*) FLATDB_OPTS="--FlatDb.Enabled=false" ;;
+esac
+
 exec /nethermind/nethermind \
   --JsonRpc.JwtSecretFile ${JWT_TOKEN} \
   --JsonRpc.EnginePort=8551 \
@@ -42,7 +50,8 @@ exec /nethermind/nethermind \
   --Init.WebSocketsEnabled=true \
   --HealthChecks.Enabled=true \
   --HealthChecks.UIEnabled=true \
-  ${DISCOVERY_BOOTNODES:+--Discovery.Bootnodes ${DISCOVERY_BOOTNODES}} \
+  ${FLATDB_OPTS} \
+  ${DISCOVERY_BOOTNODES:+--Network.Bootnodes ${DISCOVERY_BOOTNODES}} \
   $EXTRA_OPTS
 
 # Usage: Nethermind.Runner [options]
