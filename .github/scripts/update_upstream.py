@@ -113,6 +113,25 @@ def main():
 
     # File we read the current version from (canonical source).
     canonical_package_path = dappnode_package_paths[0]
+    root_package_path = dappnode_package_paths[1]
+
+    # The root files are what CI builds and releases. While a release for another
+    # network is on main (./setNetwork.sh gnosis), they hold that network's package,
+    # and writing the mainnet version and upstream into them would turn the next
+    # Nethermind release into a broken release of the wrong package. Do nothing until
+    # main points at mainnet again; the first run after that picks the release up.
+    with open(canonical_package_path, 'r') as f:
+        mainnet_name = json.load(f).get('name', '')
+    with open(root_package_path, 'r') as f:
+        root_name = json.load(f).get('name', '')
+    if root_name != mainnet_name:
+        print(f"::warning::main is set to {root_name}, not {mainnet_name}. "
+              "Skipping the upstream update until main is back on mainnet (./setNetwork.sh mainnet).")
+        for env_file in (os.getenv('GITHUB_OUTPUT'), os.getenv('GITHUB_ENV')):
+            if env_file:
+                with open(env_file, 'a') as f:
+                    f.write("updated=false\n")
+        sys.exit(0)
 
     print("Checking for Nethermind updates...")
 
