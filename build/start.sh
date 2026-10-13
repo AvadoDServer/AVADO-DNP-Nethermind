@@ -57,6 +57,15 @@ case "${EXTRA_OPTS}" in
   ;;
 esac
 
+# Nethermind 2.1.0 binds P2P to [::] (IPv4 and IPv6) when Network.LocalIp is unset. Keep
+# it IPv4-only, as before, unless the user set Network.LocalIp in EXTRA_OPTS (an option
+# given twice stops Nethermind from starting).
+LOCALIP_OPTS="--Network.LocalIp=0.0.0.0"
+if echo "${EXTRA_OPTS}" | grep -qi -E "network[.-]localip"; then
+  echo "P2P: Network.LocalIp is set in EXTRA_OPTS"
+  LOCALIP_OPTS=""
+fi
+
 exec /nethermind/nethermind \
   --JsonRpc.JwtSecretFile ${JWT_TOKEN} \
   --JsonRpc.EnginePort=8551 \
@@ -70,6 +79,7 @@ exec /nethermind/nethermind \
   --HealthChecks.Enabled=true \
   --HealthChecks.UIEnabled=true \
   ${FLATDB_OPTS} \
+  ${LOCALIP_OPTS} \
   $EXTRA_OPTS
 
 # Usage: Nethermind.Runner [options]
